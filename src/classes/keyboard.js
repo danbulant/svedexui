@@ -183,7 +183,7 @@ class Keyboard {
                         // Keep focus on the terminal
                         if (window.keyboard.linkedToTerm) window.term[window.currentTerm].term.focus();
 
-                        window.audioManager.stdin.play();
+                        audioManager.stdin.play();
                         e.preventDefault();
                     };
                     key.onmouseup = e => {

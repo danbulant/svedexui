@@ -23,7 +23,6 @@
 
         await delay(100); // 1590
         document.getElementById("keyboard").setAttribute("class", "animation_state_1 animation_state_2");
-
     });
 </script>
 

@@ -3,6 +3,7 @@
     import audioManager from "../classes/sfx";
     import { delay, getDisplayName } from "../classes/utils";
     import Terminal from "../classes/terminal";
+    import fs, { followTab, readFS, reCalculateDiskUsage } from "../stores/filesystem";
 
     const { ipcRenderer: ipc } = require("electron");
 
@@ -65,6 +66,14 @@
         window.term[0].onprocesschange = p => {
             document.getElementById("shell_tab0").innerHTML = `<p>MAIN - ${p}</p>`;
         };
+
+        await delay(10); // wait for rerender
+        if($fs) {
+            reCalculateDiskUsage();
+            followTab();
+            readFS(window.term[0].cwd);
+            window.term[window.currentTerm].resendCWD();
+        }
     });
 
     function focusShellTab(number) {
@@ -87,7 +96,7 @@
             window.term[number].term.focus();
             window.term[number].resendCWD();
 
-            // window.fsDisp.followTab();
+            if($fs) $fs.followTab();
         } else if (number > 0 && number <= 4 && window.term[number] !== null && typeof window.term[number] !== "object") {
             window.term[number] = null;
 

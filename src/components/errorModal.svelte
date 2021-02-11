@@ -83,7 +83,7 @@
     {#if modal.type === "custom"}
         {@html modal.options.html}
     {:else}
-        <h5>{modal.message}</h5>
+        <h5>{@html modal.message}</h5>
     {/if}
     <div>
     {#if modal.buttons}
