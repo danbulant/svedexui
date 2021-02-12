@@ -2701,7 +2701,7 @@ Quadtree2Quadrant.prototype = {
 
   intersects : function intersects(pos, rad) {
     var dist = pos.subtract(this.center_, true).abs(),
-        cornerDist;
+        cornerDistSq;
 
     if (dist.x > this.rad_.x + rad) { return false; }
     if (dist.y > this.rad_.y + rad) { return false; }

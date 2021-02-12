@@ -65,6 +65,7 @@ export default function getIcon(e, edexIcons) {
                 type = iconName.replace("icon-", "");
             } else {
                 type = "special folder";
+                if(!icon) icon = icons.dir;
             }
             break;
     }

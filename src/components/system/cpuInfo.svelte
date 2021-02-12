@@ -34,7 +34,7 @@
 
         for (var i = 0; i < 2; i++) {
             charts.push(new SmoothieChart({
-                limitFPS: 30,
+                limitFPS: 15,
                 responsive: true,
                 millisPerPixel: 50,
                 grid:{
@@ -70,7 +70,7 @@
         }
 
         for (var i = 0; i < 2; i++) {
-            charts[i].streamTo(document.getElementById(`mod_cpuinfo_canvas_${i}`), 500);
+            charts[i].streamTo(document.getElementById(`mod_cpuinfo_canvas_${i}`), 2010);
         }
 
         // Init updater
@@ -80,18 +80,18 @@
         updateCPUtasks();
         loadUpdater = setInterval(() => {
             updateCPUload();
-        }, 1000);
+        }, 2000);
         if (process.platform !== "win32") {
             tempUpdater = setInterval(() => {
                 updateCPUtemp();
-            }, 2500);
+            }, 5500);
         }
         speedUpdater = setInterval(() => {
             updateCPUspeed();
-        }, 1500);
+        }, 300);
         tasksUpdater = setInterval(() => {
             updateCPUtasks();
-        }, 9000);
+        }, 11000);
     });
 
 
@@ -149,8 +149,6 @@
             }
         });
     }
-
-    $: console.log(cpuName, divide, data);
 </script>
 
 <div id="mod_cpuinfo" style="animation-play-state: {active ? "running" : "paused"};">

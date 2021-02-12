@@ -17,7 +17,7 @@
         });
 
         await delay(280); // 1490
-        document.getElementById("keyboard").setAttribute("style", "");
+        document.getElementById("keyboard").setAttribute("style", "overflow: hidden;");
         document.getElementById("keyboard").setAttribute("class", "animation_state_1");
         audioManager.keyboard.play();
 
@@ -26,5 +26,5 @@
     });
 </script>
 
-<section id="keyboard" style="opacity:0;">
+<section id="keyboard" style="opacity:0; overflow: hidden;">
 </section>

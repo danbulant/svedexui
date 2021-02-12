@@ -7,6 +7,7 @@
     import getIcon from "../data/getIcon";
     import errorModals from "../stores/errorModals";
     import Modal from "../classes/modal";
+import FsIcon from "./fsIcon.svelte";
 
     var openFs = false;
     /** @type {ReturnType<edexIconsGetter>}*/
@@ -106,10 +107,8 @@
     }
 
     var objects = [];
-    var icons = [];
     $: if($fs) {
         objects = $fs.diskView ? $fs.devices : $fs.contents;
-        icons = objects.map(o => getIcon(o, edexIcons));
     }
 </script>
 
@@ -123,11 +122,7 @@
             <div id="fs_disp_container">
                 {#each objects as e, i}
                     <div class="fs_disp_{e.type}" class:animationWait={$fs.animationPointer < i} class:hidden={e.hidden} on:click={(e) => click(i, e)}>
-                        {#if icons[i]}
-                            <svg viewBox="0 0 {icons[i].width} {icons[i].height}" fill="rgb({window.theme.r}, {window.theme.g}, {window.theme.b})">
-                                {@html icons[i].svg}
-                            </svg>
-                        {/if}
+                        <FsIcon file={e} {edexIcons} />
                         <h3>{e.name}</h3>
                         <h4>{e.displayType}</h4>
                         <h4>{e.size ? formatBytes(e.size) : "--"}</h4>

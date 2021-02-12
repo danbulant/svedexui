@@ -52,7 +52,7 @@ var runNextTick = false;
 var timer = setInterval(() => {
     if (runNextTick === true) {
         runNextTick = false;
-        readFS(valueCache.path);
+        readFS(valueCache.path, true);
     }
 }, 1000);
 
@@ -67,6 +67,7 @@ function followTab() {
         // See #501
         if (valueCache.detached) return false;
 
+        console.log(cwd, valueCache);
         if (cwd && cwd !== valueCache.path && window.currentTerm === num) {
             valueCache.path = cwd;
             if (watcher) {
@@ -85,7 +86,7 @@ function followTab() {
 }
 
 var reading;
-async function readFS(dir) {
+async function readFS(dir, ignoreSound = false) {
     if (valueCache.state === 1 || reading) return false;
     reading = true;
 
@@ -107,6 +108,7 @@ async function readFS(dir) {
         }
     });
 
+    if(!content) return false;
     reCalculateDiskUsage(tcwd);
 
     valueCache.contents = [];
@@ -198,7 +200,9 @@ async function readFS(dir) {
     valueCache.path = tcwd;
     valueCache.diskView = false;
     filesystem.set(valueCache); // render
-    animateRender();
+    if(!ignoreSound) {
+        animateRender();
+    }
     reading = false;
 };
 

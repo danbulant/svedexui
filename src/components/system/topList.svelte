@@ -17,7 +17,7 @@
     updateList();
     var listUpdater = setInterval(() => {
         updateList();
-    }, 2000);
+    }, 4000);
 
     var list = [];
     function updateList() {

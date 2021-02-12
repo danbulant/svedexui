@@ -43,6 +43,6 @@
     });
 </script>
 
-<div id="mod_clock" class="{(twelveHours) ? "mod_clock_twelve" : ""}" style="animation-play-state: {active ? "running" : "paused"};">
+<div id="mod_clock" class:mod_clock_twelve={twelveHours} style="animation-play-state: {active ? "running" : "paused"};">
     <h1 id="mod_clock_text"><span>{array[0]}</span><span>{array[1]}</span><em>:</em><span>{array[2]}</span><span>{array[3]}</span><em>:</em><span>{array[4]}</span><span>{array[5]}</span>{#if twelveHours}<span>{array[6]}</span>{/if}</h1>
 </div>

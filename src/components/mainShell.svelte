@@ -18,7 +18,7 @@
         await delay(500); // 510
 
         document.getElementById("main_shell").setAttribute("style", "margin-bottom: 30vh;");
-        document.querySelector("#main_shell > h3.title").setAttribute("style", "");
+        document.querySelector("#shell_title > h3.title").setAttribute("style", "");
 
         await delay(700); // 1210
 
@@ -79,6 +79,7 @@
     function focusShellTab(number) {
         audioManager.folder.play();
 
+        console.log("Focusing");
         if (number !== window.currentTerm && window.term[number]) {
             window.currentTerm = number;
 
@@ -138,7 +139,6 @@
 </script>
 
 <section id="main_shell" style="height:0%;width:0%;opacity:0;margin-bottom:30vh;" augmented-ui="bl-clip tr-clip exe">
-    <h3 class="title" style="opacity:0;"><p>TERMINAL</p><p>MAIN SHELL</p></h3>
     {#if welcomeMessage !== null}
         <h1 id="main_shell_greeting">{@html welcomeMessage}</h1>
     {/if}
@@ -159,4 +159,7 @@
             <pre id="terminal4"></pre>
         </div>
     {/if}
+</section>
+<section id="shell_title">
+    <h3 class="title" style="opacity:0;"><p>TERMINAL</p><p>MAIN SHELL</p></h3>
 </section>

@@ -19,10 +19,13 @@
      *  @type {number[]} 
     */
     var points = [];
+    var pointers = [];
 
     for (var i = 0; i < 440; i++) {
         points.push(0);
+        pointers.push(i);
     }
+    shuffleArray(pointers);
 
     var usingText = "";
     var swap = 0;
@@ -36,10 +39,9 @@
             let available = Math.round((440*(data.available-data.free))/data.total);
 
             // Update grid
-            points.slice(0, active).forEach((a, i) => { points[i] = 2});
-            points.slice(active, active+available).forEach((a, i) => { points[i] = 1});
-            points.slice(active+available, points.length).forEach((a, i) => { points[i] = 0});
-            points = shuffleArray(points);
+            points.slice(0, active).forEach((a, i) => { points[pointers[i]] = 2});
+            points.slice(active, active+available).forEach((a, i) => { points[pointers[i]] = 1});
+            points.slice(active+available, points.length).forEach((a, i) => { points[pointers[i]] = 0});
 
             // Update info text
             let totalGiB = Math.round((data.total/1073742000)*10)/10; // 1073742000 bytes = 1 Gibibyte (GiB), the *10 is to round to .1 decimal

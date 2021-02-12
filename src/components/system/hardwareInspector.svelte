@@ -40,16 +40,16 @@
 <div id="mod_hardwareInspector" style="animation-play-state: {active ? "running" : "paused"};">
     <div id="mod_hardwareInspector_inner">
         <div>
-            <h1>MANUFACTURER</h1>
-            <h2 id="mod_hardwareInspector_manufacturer">{manufacturer}</h2>
+            <h2>MANUFACTURER</h2>
+            <h1 id="mod_hardwareInspector_manufacturer">{manufacturer}</h1>
         </div>
         <div>
-            <h1>MODEL</h1>
-            <h2 id="mod_hardwareInspector_model">{model}</h2>
+            <h2>MODEL</h2>
+            <h1 id="mod_hardwareInspector_model">{model}</h1>
         </div>
         <div>
-            <h1>CHASSIS</h1>
-            <h2 id="mod_hardwareInspector_chassis">{chassis}</h2>
+            <h2>CHASSIS</h2>
+            <h1 id="mod_hardwareInspector_chassis">{chassis}</h1>
         </div>
     </div>
 </div>
