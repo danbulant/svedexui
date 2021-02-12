@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import audioManager from "../classes/sfx";
 import { escapeHtml } from "../classes/utils";
 
 const path = require("path");
@@ -20,7 +21,9 @@ var valueCache = {
     path: "/",
     diskUsage: null,
     displayMount: null,
-    diskView: false
+    diskView: false,
+    devices: null,
+    animationPointer: Infinity
 };
 
 const filesystem = writable(valueCache);
@@ -59,15 +62,15 @@ function followTab() {
 
     let num = window.currentTerm;
 
-    if(!num || !window.term) return;
+    if(typeof num !== "number" || !window.term) return;
     window.term[num].oncwdchange = cwd => {
         // See #501
         if (valueCache.detached) return false;
 
         if (cwd && cwd !== valueCache.path && window.currentTerm === num) {
-            valueCache.path= cwd;
+            valueCache.path = cwd;
             if (watcher) {
-                watcehr.close();
+                watcher.close();
             }
             if (cwd.startsWith("FALLBACK |-- ")) {
                 readFS(cwd.slice(13));
@@ -161,7 +164,8 @@ async function readFS(dir) {
             valueCache.contents.push(e);
             if (i === content.length-1) resolve();
         });
-    }).catch(() => {
+    }).catch((e) => {
+        console.error(e);
         valueCache.state = 1;
         filesystem.set(valueCache);
     });
@@ -192,7 +196,9 @@ async function readFS(dir) {
     }
 
     valueCache.path = tcwd;
+    valueCache.diskView = false;
     filesystem.set(valueCache); // render
+    animateRender();
     reading = false;
 };
 
@@ -217,8 +223,31 @@ async function readDevices()  {
     });
 
     valueCache.devices = devices;
+    valueCache.diskView = true;
     filesystem.set(valueCache);
+    animateRender();
 };
+
+async function animateRender() {
+    valueCache.animationPointer = 0;
+    filesystem.set(valueCache);
+    const showNext = () => {
+        if(valueCache.animationPointer > (valueCache.diskView ? valueCache.devices.length : valueCache.contents.length)) {
+            valueCache.animationPointer = Infinity;
+            filesystem.set(valueCache);
+        } else {
+            valueCache.animationPointer++;
+            if (window.settings.hideDotfiles !== true || e.className.indexOf("hidden") === -1) {
+                audioManager.folder.play();
+                filesystem.set(valueCache);
+                setTimeout(() => showNext());
+            } else {
+                showNext();
+            }
+        }
+    }
+    showNext();
+}
 
 async function reCalculateDiskUsage() {
     var fsBlock = null;

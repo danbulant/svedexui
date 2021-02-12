@@ -96,7 +96,7 @@
             window.term[number].term.focus();
             window.term[number].resendCWD();
 
-            if($fs) $fs.followTab();
+            if($fs) followTab();
         } else if (number > 0 && number <= 4 && window.term[number] !== null && typeof window.term[number] !== "object") {
             window.term[number] = null;
 
