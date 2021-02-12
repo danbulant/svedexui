@@ -1,9 +1,9 @@
 <script>
     import { onMount } from "svelte";
-import audioManager from "../../classes/sfx";
+    import audioManager from "../../classes/sfx";
     import { delay } from "../../classes/utils";
 
-    export var offset;
+    export var offset = 0;
     var active = false;
     var twelveHours = (window.settings.clockHours === 12);
     var lastTime = new Date();
@@ -37,12 +37,12 @@ import audioManager from "../../classes/sfx";
     }
 
     onMount(async () => {
-        await delay(500 * (offset + 1));
+        await delay(3090 + 500 * (offset + 1));
         active = true;
         audioManager.panels.play();
     });
 </script>
 
-<div id="mod_clock" class="{(twelveHours) ? "mod_clock_twelve" : ""}" style="animation-play-state: {active ? "running" : "initial"};">
-    <h1 id="mod_clock_text"><span>{array[0]}</span><span>{array[1]}</span><em>:</em><span>{array[2]}</span><span>{array[3]}</span><em>:</em><span>{array[4]}</span><span>{array[5]}</span><span>{twelveHours ? array[6] : ""}</span></h1>
+<div id="mod_clock" class="{(twelveHours) ? "mod_clock_twelve" : ""}" style="animation-play-state: {active ? "running" : "paused"};">
+    <h1 id="mod_clock_text"><span>{array[0]}</span><span>{array[1]}</span><em>:</em><span>{array[2]}</span><span>{array[3]}</span><em>:</em><span>{array[4]}</span><span>{array[5]}</span>{#if twelveHours}<span>{array[6]}</span>{/if}</h1>
 </div>
