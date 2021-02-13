@@ -1,21 +1,17 @@
 {
   "name": "svedex-ui",
   "version": "0.1.0",
-  "description": "A simple starter project to get up and developing quickly with the blend of Svelte and Electron JS for building a Native Desktop App on various OS Platforms like Windows, Linux and macOS using Electron Builder.",
+  "description": "Svelte version of eDEX UI",
   "main": "main.js",
-  "author": "Souleh Shaikh <author.souleh@thegeekytutor.com>",
-  "license": "MIT",
-  "private": false,
+  "author": "Daniel Bulant",
+  "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/soulehshaikh99/create-svelte-electron-app"
-  },
-  "bugs": {
-    "url": "https://github.com/soulehshaikh99/create-svelte-electron-app/issues"
+    "url": "https://github.com/danbulant/svedexui"
   },
   "build": {
     "icon": "public/favicon.png",
-    "productName": "Svelte and Electron App",
+    "productName": "sveDEX UI",
     "files": [
       "public/**/*",
       "main.js"
@@ -30,7 +26,7 @@
     "start": "sirv public",
     "electron": "wait-on http://localhost:5000 && electron .",
     "electron-dev": "concurrently \"npm run dev\" \"npm run electron\"",
-    "preelectron-pack": "yarn run build",
+    "preelectron-pack": "npm run build",
     "electron-pack": "electron-builder"
   },
   "dependencies": {
@@ -76,25 +72,8 @@
     "wait-on": "^5.2.0"
   },
   "keywords": [
-    "cross-platform",
-    "native-app",
-    "installed-app",
-    "desktop-applications",
-    "windows",
-    "linux",
-    "macos",
-    "html",
-    "css",
-    "javascript",
-    "front-end",
-    "compiler",
-    "svelte",
-    "rollup",
-    "electron",
-    "electron-builder",
-    "electron-serve",
-    "concurrently",
-    "wait-on",
-    "webapp"
+    "edex-ui",
+    "edex",
+    "terminal"
   ]
 }
