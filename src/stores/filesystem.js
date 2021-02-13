@@ -67,7 +67,6 @@ function followTab() {
         // See #501
         if (valueCache.detached) return false;
 
-        console.log(cwd, valueCache);
         if (cwd && cwd !== valueCache.path && window.currentTerm === num) {
             valueCache.path = cwd;
             if (watcher) {

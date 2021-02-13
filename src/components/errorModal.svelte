@@ -81,7 +81,11 @@
     augmented-ui="{modal.augs} exe">
     <h1>{modal.title}</h1>
     {#if modal.type === "custom"}
-        {@html modal.options.html}
+        {#if modal.options.component}
+            <svelte:component this={modal.options.component} {...modal.options.arguments} />
+        {:else}
+            {@html modal.options.html}
+        {/if}
     {:else}
         <h5>{@html modal.message}</h5>
     {/if}

@@ -121,7 +121,7 @@
                         document.getElementById("terminal"+number).innerHTML = "";
                         window.term[number].term.dispose();
                         delete window.term[number];
-                        window.useAppShortcut("PREVIOUS_TAB");
+                        // window.useAppShortcut("PREVIOUS_TAB");
                     };
 
                     window.term[number].onprocesschange = p => {

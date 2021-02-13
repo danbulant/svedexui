@@ -7,7 +7,16 @@
     import getIcon from "../data/getIcon";
     import errorModals from "../stores/errorModals";
     import Modal from "../classes/modal";
-import FsIcon from "./fsIcon.svelte";
+    import FsIcon from "./fsIcon.svelte";
+    import Image from "./modals/image.svelte";
+    import Video from "./modals/video.svelte";
+    import Audio from "./system/audio.svelte";
+    import Pdf from "./system/pdf.svelte";
+    import Text from "./modals/text.svelte";
+    const electron = require("electron");
+    const mime = require("mime-types");
+    const electronWin = electron.remote.getCurrentWindow();
+    const afs = require("fs");
 
     var openFs = false;
     /** @type {ReturnType<edexIconsGetter>}*/
@@ -35,22 +44,60 @@ import FsIcon from "./fsIcon.svelte";
         } else if(e.type === "showDisks") {
             readDevices();
         } else if (window.keyboard.container.dataset.isCtrlOn == "true") {
-            electron.shell.openItem($fs.contents[num].path);
+            electron.shell.openPath($fs.contents[num].path);
             electronWin.minimize();
         } else if (window.keyboard.container.dataset.isShiftOn == "true") {
             window.term[window.currentTerm].write("\"" + $fs.contents[num].path + "\"");
         } else {
             if(e.type === "system") return;
             // Handle displayable media
-            if (e.type === 'video' || e.type === 'audio' || e.type === 'image') {
-                this.cwd[blockIndex].type = e.type;
-                //window.fsDisp.openMedia(num);
-                let errorModal = new Modal({
-                    type: "error",
-                    title: "Unsupported action",
-                    message: `Opening media is not yet supported`
-                });
-                errorModals.update(modals => modals.push(errorModal) && modals);
+            if (e.displayType === 'video' || e.displayType === 'audio' || e.displayType === 'image') {
+                var fileModal;
+                switch(e.displayType) {
+                    case "image":
+                        fileModal = new Modal({
+                            type: "custom",
+                            title: e.name,
+                            component: Image,
+                            arguments: {
+                                source: "local://" + e.path
+                            }
+                        });
+                        break;
+                    case "video":
+                        fileModal = new Modal({
+                            type: "error",
+                            title: "Unsupported action",
+                            message: `Opening videos is not yet supported`
+                        });
+                        // Missing icons
+                        // fileModal = new Modal({
+                        //     type: "custom",
+                        //     title: e.name,
+                        //     component: Video,
+                        //     arguments: {
+                        //         source: "local://" + e.path
+                        //     }
+                        // });
+                        break;
+                    case "audio":
+                        fileModal = new Modal({
+                            type: "error",
+                            title: "Unsupported action",
+                            message: `Opening audio files is not yet supported`
+                        });
+                        // missing icons
+                        // fileModal = new Modal({
+                        //     type: "custom",
+                        //     title: e.name,
+                        //     component: Audio,
+                        //     arguments: {
+                        //         source: "local://" + e.path
+                        //     }
+                        // });
+                        break;
+                }
+                errorModals.update(modals => modals.push(fileModal) && modals);
                 return;
             }
             if (e.type === "edex-shortcuts") {
@@ -67,13 +114,65 @@ import FsIcon from "./fsIcon.svelte";
                 // window.openSettings();
             }
             if(e.type === "file") {
-                // window.fsDisp.openFile(num);
-                let errorModal = new Modal({
-                    type: "error",
-                    title: "Unsupported action",
-                    message: `Opening files is not yet supported`
-                });
-                errorModals.update(modals => modals.push(errorModal) && modals);
+                let filetype = mime.lookup(e.name.split(".")[e.name.split(".").length - 1]);
+                if(filetype === "application/pdf") {
+                    let fileModal = new Modal({
+                        type: "custom",
+                        title: e.name,
+                        component: Pdf,
+                        arguments: {
+                            source: e.path
+                        },
+                    });
+                    errorModals.update(modals => modals.push(fileModal) && modals);
+                } else if (mime.charset(filetype) === "UTF-8") {
+                    afs.readFile(e.path, 'utf-8', (err, data) => {
+                        if (err) {
+                            var errorModal = new Modal({
+                                type: "info",
+                                title: "Failed to load file: " + block.path,
+                                html: err
+                            });
+                            console.log(err);
+                            errorModals.update(modals => modals.push(errorModal) && modals);
+                            return;
+                        };
+                        window.keyboard.detach();
+                        let fileModal = new Modal({
+                            type: "custom",
+                            title: e.name,
+                            component: Text,
+                            arguments: {
+                                data
+                            },
+                            buttons: [
+                                {
+                                    label:"Save to Disk",
+                                    action: (e) => {
+                                        console.log(e.target);
+                                    }
+                                }
+                            ]
+                        }, () => {
+                            window.keyboard.attach();
+                            window.term[window.currentTerm].term.focus();
+                        });
+                        errorModals.update(modals => modals.push(fileModal) && modals);
+                    });
+                } else {
+                    var errorModal = new Modal({
+                        type: "error",
+                        title: "Unsupported file format",
+                        message: "This file cannot be opened directly"
+                    });
+                    errorModals.update(modals => modals.push(errorModal) && modals);
+                }
+                // let fileModal = new Modal({
+                //     type: "error",
+                //     title: "Unsupported action",
+                //     message: `Opening files is not yet supported`
+                // });
+                // errorModals.update(modals => modals.push(fileModal) && modals);
                 return;
             }
 
