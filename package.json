@@ -22,7 +22,14 @@
     ],
     "win": {},
     "linux": {},
-    "mac": {}
+    "mac": {},
+    "snap": {
+      "confinement": "classic",
+      "grade": "devel"
+    },
+    "appImage": {
+      "license": "LICENSE"
+    }
   },
   "scripts": {
     "build": "rollup -c",
