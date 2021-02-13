@@ -67,13 +67,15 @@
             document.getElementById("shell_tab0").innerHTML = `<p>MAIN - ${p}</p>`;
         };
 
-        await delay(10); // wait for rerender
-        if($fs) {
-            reCalculateDiskUsage();
-            followTab();
-            readFS(window.term[0].cwd);
-            window.term[window.currentTerm].resendCWD();
-        }
+        reCalculateDiskUsage();
+        window.term[0].oncwdchange = (cwd => {
+            if($fs) {
+                $fs.path = cwd;
+                followTab();
+                readFS(window.term[0].cwd);
+                window.term[window.currentTerm].resendCWD();
+            }
+        });
     });
 
     function focusShellTab(number) {

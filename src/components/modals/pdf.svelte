@@ -16,7 +16,11 @@
         <button class="previous_page">
             <Icon icon={icons.arrowBack} />
         </button>
-        <span>Page: <span class="page_num"/></span><span>/</span> <span class="page_count"></span></span>
+        <span>Page:
+            <span class="page_num"></span>
+            <span>/</span>
+            <span class="page_count"></span>
+        </span>
         <button class="next_page">
             <Icon icon={icons.arrowNext} />
         </button>

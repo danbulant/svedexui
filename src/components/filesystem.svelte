@@ -10,8 +10,8 @@
     import FsIcon from "./fsIcon.svelte";
     import Image from "./modals/image.svelte";
     import Video from "./modals/video.svelte";
-    import Audio from "./system/audio.svelte";
-    import Pdf from "./system/pdf.svelte";
+    import Audio from "./modals/audio.svelte";
+    import Pdf from "./modals/pdf.svelte";
     import Text from "./modals/text.svelte";
     const electron = require("electron");
     const mime = require("mime-types");
