@@ -7,7 +7,7 @@ const url = require("url");
 const fs = require("fs");
 const which = require("which");
 const loadURL = serve({ directory: 'public' });
-const { Terminal } = require("./src/terminal");
+const { Terminal } = require("./terminal");
 const { settingsFile } = require("./initialize");
 
 signale.start(`Starting eDEX-UI v${app.getVersion()}`);
@@ -64,7 +64,7 @@ function createWindow() {
         frame: false,
         backgroundColor: '#000000',
         webPreferences: {
-            devTools: true,
+            devTools: isDev(),
             enableRemoteModule: true,
             contextIsolation: false,
             backgroundThrottling: false,

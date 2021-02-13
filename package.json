@@ -14,7 +14,10 @@
     "productName": "sveDEX UI",
     "files": [
       "public/**/*",
-      "main.js"
+      "main.js",
+      "initialize.js",
+      "multithread.js",
+      "terminal.js"
     ],
     "win": {},
     "linux": {},
