@@ -4,6 +4,7 @@
   "description": "Svelte version of eDEX UI",
   "main": "main.js",
   "author": "Daniel Bulant",
+  "license": "GPL",
   "private": true,
   "repository": {
     "type": "git",
